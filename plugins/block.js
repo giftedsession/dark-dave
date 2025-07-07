@@ -1,21 +1,27 @@
-let handler = async (m, { conn, text, isOwner }) => {
+let handler = async (m, { conn, text, isOwner, quoted, mentionedJid }) => {
     if (!isOwner) return m.reply("❌ Only the owner can use this command.")
-    if (!m.quoted && !text) return m.reply("❗ Tag or reply to the user you want to block.")
+    if (!quoted && !mentionedJid.length && !text) return m.reply("❗ Tag, reply, or provide a number to block.")
 
-    let user = m.mentionedJid?.[0] 
-        || m.quoted?.sender 
-        || (text.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
+    let target = mentionedJid[0]
+              || (quoted ? quoted.sender : null)
+              || (text ? text.replace(/[^0-9]/g, '') + '@s.whatsapp.net' : null)
 
-    if (!user) return m.reply("🚫 Invalid user.")
-    if (user === '254104260236@s.whatsapp.net') return m.reply("⚠️ I can't block my creator 😡")
-    if (user === conn.decodeJid(conn.user.id)) return m.reply("😡 I won't block myself, fool.")
+    if (!target) return m.reply("🚫 Could not identify the user to block.")
 
-    await conn.updateBlockStatus(user, 'block')
-    m.reply(`✅ Successfully blocked: ${user}`)
+    if (target === conn.decodeJid(conn.user.id)) return m.reply("😡 I can't block myself.")
+    if (target === '254104260236@s.whatsapp.net') return m.reply("⚠️ I can't block my creator 😡")
+
+    try {
+        await conn.updateBlockStatus(target, 'block')
+        m.reply(`✅ Successfully *blocked* @${target.split('@')[0]}`, { mentions: [target] })
+    } catch (err) {
+        m.reply("❌ Failed to block user.\n\n" + err)
+    }
 }
 
 handler.help = ['block']
-handler.tags = ['admin']
+handler.tags = ['owner']
 handler.command = ['block']
+handler.owner = true
 
 module.exports = handler
