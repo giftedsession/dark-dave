@@ -12,7 +12,7 @@ let handler = async (m, { Gifted }) => {
         title: "𝐃𝐀𝐕𝐄-𝐗𝐌𝐃 BOT",
         body: "Powered by Gifted Dave",
         thumbnailUrl: "https://files.catbox.moe/vr83h2.jpg",
-        sourceUrl: "https://github.com/gifteddevsmd/DAVE-XMD",
+        sourceUrl: "https://github.com/giftedsession/dark-dave",
         mediaType: 1,
         renderLargerThumbnail: true
       }
