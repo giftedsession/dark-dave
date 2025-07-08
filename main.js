@@ -3,6 +3,7 @@ const makeWASocket = require("@whiskeysockets/baileys").default
 const { uncache, nocache } = require('./lib/loader')
 const { color } = require('./lib/color')
 const NodeCache = require("node-cache")
+const Gifted = await startGifted()
 const readline = require("readline")
 const pino = require('pino')
 const { Boom } = require('@hapi/boom')
