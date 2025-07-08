@@ -495,20 +495,20 @@ Gifted.downloadMediaMessage = async (message) => {
 return Gifted
 }
 
-async function Dave() {
+async function Gifted () {
     if (fs.existsSync(credsPath)) {
         console.log(color("Session file found, starting bot...", 'yellow'))
-        await startBellah()
+        await startGifted()
     } else {
         const sessionDownloaded = await downloadSessionData()
         if (sessionDownloaded) {
             console.log("Session downloaded, starting bot.")
-            await startBellah()
+            await startGifted()
         } else {
             if (!fs.existsSync(credsPath)) {
                 if (!global.SESSION_ID) {
                     console.log(color("Please wait for a few seconds to enter your number!", 'red'))
-                    await startBellah()
+                    await startGifted()
                 }
             }
         }
