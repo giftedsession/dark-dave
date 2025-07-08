@@ -29,10 +29,10 @@
 ## 🚀 Deploy 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃 to Hosting Platforms
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/Heroku-Deploy-purple?style=for-the-badge&logo=heroku" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Railway-Deploy-black?style=for-the-badge&logo=railway" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Koyeb-Deploy-darkblue?style=for-the-badge&logo=koyeb" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Render-Deploy-blue?style=for-the-badge&logo=render" /></a>
+  <a href="https://heroku.com/deploy?template=https://github.com/giftedsession/dark-dave"><img src="https://img.shields.io/badge/Heroku-Deploy-purple?style=for-the-badge&logo=heroku" /></a>
+  <a href="https://railway.app/new/template?template=https://github.com/giftedsession/dark-dave"><img src="https://img.shields.io/badge/Railway-Deploy-black?style=for-the-badge&logo=railway" /></a>
+  <a href="https://app.koyeb.com/deploy?type=git&repository=github.com/giftedsession/dark-dave"><img src="https://img.shields.io/badge/Koyeb-Deploy-darkblue?style=for-the-badge&logo=koyeb" /></a>
+  <a href="https://render.com/deploy?repo=https://github.com/giftedsession/dark-dave"><img src="https://img.shields.io/badge/Render-Deploy-blue?style=for-the-badge&logo=render" /></a>
 </p>
 
 ---
@@ -50,22 +50,12 @@ cd dark-dave
 npm install
 node main.js
 
-## 📌 Fork & Star the Repo
-
-> Support the project by forking and starring this repo!
-
-[![Fork the Repo](https://img.shields.io/badge/Fork%20This%20Repo-darkgreen?style=for-the-badge&logo=github)](https://github.com/giftedsession/dark-dave/fork)
-
-[![Star Repo](https://img.shields.io/github/stars/giftedsession/dark-dave?style=for-the-badge)](https://github.com/giftedsession/dark-dave)
-
----
-
 ## 🧠 Credits
 
 | Name           | Role                                |
 |----------------|-------------------------------------|
 | Gifted Dave    | Developer, Maintainer, Founder      |
-| Tennor-modz    | Base Fork and Deployment Tweaks     |
+| Tennor-modz    | Base and Deployment Tweaks     |
 
 ---
 
