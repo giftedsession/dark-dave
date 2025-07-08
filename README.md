@@ -19,6 +19,20 @@
 
 ---
 
+## 📌 Fork & Star the Repo
+
+> Support the project by forking and starring this repo!
+
+<p align="center">
+  <a href="https://github.com/giftedsession/dark-dave/fork">
+    <img src="https://img.shields.io/badge/Fork%20This%20Repo-darkgreen?style=for-the-badge&logo=github" />
+  </a>
+  <a href="https://github.com/giftedsession/dark-dave/stargazers">
+    <img src="https://img.shields.io/badge/Star%20This%20Repo-yellow?style=for-the-badge&logo=github" />
+  </a>
+</p>
+
+
 ## 🔐 Session ID Generator
 > Click below to get your Session ID instantly
 
