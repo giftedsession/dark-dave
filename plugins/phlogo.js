@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-let handler = async (m, { command, text, Bellah }) => {
+let handler = async (m, { command, text, Gifted }) => {
   if (!text || !text.includes('|')) {
     return m.reply(`✳️ Invalid format.\n\nExample: *.${command} Gifted|Dave*`);
   }
@@ -15,7 +15,7 @@ let handler = async (m, { command, text, Bellah }) => {
 
     if (!json.status) return m.reply('⚠️ Sorry, the API is currently down.');
 
-    await Bellah.sendMessage(m.chat, {
+    await Gifted.sendMessage(m.chat, {
       image: { url: json.result },
       caption: `✅ *Logo Created Successfully!*\n\n➤ *Text1:* ${text1}\n➤ *Text2:* ${text2}`,
       contextInfo: {
