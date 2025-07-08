@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/giftedsession">
-    <img title="Author" src="https://files.catbox.moe/vr83h2.jpg" width="150" height="150" style="border-radius: 50%;">
+    <img title="Author" src="https://files.catbox.moe/vr83h2.jpg" width="200" height="280" style="border-radius: 80%;">
   </a>
 </p>
 
@@ -54,3 +54,30 @@ git clone https://github.com/giftedsession/dark-dave
 cd dark-dave
 yarn install
 node main.js
+
+## 📌 Fork & Star the Repo
+
+> Support the project by forking and starring this repo!
+
+[![Fork the Repo](https://img.shields.io/badge/Fork%20This%20Repo-darkgreen?style=for-the-badge&logo=github)](https://github.com/giftedsession/dark-dave/fork)
+
+[![Star Repo](https://img.shields.io/github/stars/giftedsession/dark-dave?style=for-the-badge)](https://github.com/giftedsession/dark-dave)
+
+---
+
+## 🧠 Credits
+
+| Name           | Role                                |
+|----------------|-------------------------------------|
+| Gifted Dave    | Developer, Maintainer, Founder      |
+| Tennor-modz    | Base Fork and Deployment Tweaks     |
+
+---
+
+## 🧾 License & Info
+
+- Version: `1.0.0`
+- License: `MIT`
+- Project: **𝐃𝐀𝐕𝐄-𝐗𝐌𝐃** (2025)
+
+---
