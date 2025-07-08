@@ -1,4 +1,3 @@
-
 require('./settings')
 const makeWASocket = require("@whiskeysockets/baileys").default
 const { uncache, nocache } = require('./lib/loader')
@@ -299,7 +298,9 @@ Gifted.ev.on('group-participants.update', async (anu) => {
 });
 
 // detect group update
-      Gifted.ev.on('messages.upsert', async chatUpdate => {
+	
+            
+    Gifted.ev.on('messages.upsert', async chatUpdate => {
         //console.log(JSON.stringify(chatUpdate, undefined, 2))
         try {
             mek = chatUpdate.messages[0]
@@ -420,9 +421,9 @@ return response
     }
     await Gifted.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
     return buffer
-              }
+}
 
-    Gifted.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+Gifted.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
     let quoted = message.msg ? message.msg : message
     let mime = (message.msg || message).mimetype || ''
     let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
@@ -528,4 +529,3 @@ process.on('uncaughtException', function (err) {
     if (e.includes("Value not found")) return
     console.log('Caught exception: ', err)
 })
-        
