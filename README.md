@@ -1,47 +1,39 @@
-# 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃
-
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=THANKS+FOR+CHOOSING+𝐃𝐀𝐕𝐄-𝐗𝐌𝐃;MULTI+DEVICE+WHATSAPP+BOT;CREATED+BY+GIFTED+DAVE;RELEASED+24.03.2025" alt="Typing SVG" />
-</a>
+<h1 align="center">𝐃𝐀𝐕𝐄-𝐗𝐌𝐃</h1>
 
 <p align="center">
-  <a href="https://github.com/giftedsession">
-    <img title="Author" src="https://files.catbox.moe/vr83h2.jpg" width="200" height="280" style="border-radius: 80%;">
+  <img src="https://files.catbox.moe/vr83h2.jpg" width="260" style="border-radius:15px;" />
+</p>
+
+<p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=35&pause=1000&color=13F7EC&center=true&vCenter=true&width=1000&lines=THANKS+FOR+CHOOSING+𝐃𝐀𝐕𝐄-𝐗𝐌𝐃;MULTI-DEVICE+WHATSAPP+BOT;CREATED+BY+GIFTED+DAVE;NOW+OPEN+SOURCE+AND+STABLE" alt="Typing SVG" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/giftedsession/followers"><img title="Followers" src="https://img.shields.io/github/followers/giftedsession?color=blue&style=flat-square"></a>
-  <a href="https://github.com/giftedsession/dark-dave/stargazers"><img title="Stars" src="https://img.shields.io/github/stars/giftedsession/dark-dave?color=blue&style=flat-square"></a>
-  <a href="https://github.com/giftedsession/dark-dave/network/members"><img title="Forks" src="https://img.shields.io/github/forks/giftedsession/dark-dave?color=blue&style=flat-square"></a>
-  <a href="https://github.com/giftedsession/dark-dave"><img title="Size" src="https://img.shields.io/github/repo-size/giftedsession/dark-dave?style=flat-square&color=green"></a>
-  <a href="https://github.com/giftedsession/dark-dave/graphs/commit-activity"><img height="20" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"></a>
+  <a href="https://github.com/giftedsession/dark-dave/fork"><img src="https://img.shields.io/github/forks/giftedsession/dark-dave?style=for-the-badge&color=blue" /></a>
+  <a href="https://github.com/giftedsession/dark-dave/stargazers"><img src="https://img.shields.io/github/stars/giftedsession/dark-dave?style=for-the-badge&color=yellow" /></a>
+  <a href="https://github.com/giftedsession/dark-dave"><img src="https://img.shields.io/github/repo-size/giftedsession/dark-dave?style=for-the-badge&color=green" /></a>
+  <a href="https://github.com/giftedsession"><img src="https://img.shields.io/badge/Maintained%3F-Yes-blue.svg?style=for-the-badge" /></a>
 </p>
 
 ---
 
-## 🪧 Notice
-This bot is **NOT obfuscated** — editing with care is your responsibility. Customize at your own risk.
+## 🔐 Session ID Generator
+> Click below to get your Session ID instantly
+
+[![Get Session](https://img.shields.io/badge/Get%20Session%20ID-Click%20Here-green?style=for-the-badge&logo=whatsapp)](https://davesxmd-03209e7609ef.herokuapp.com/)
 
 ---
 
-## 🚀 Deploy 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃 Anywhere
+## 🚀 Deploy 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃 to Hosting Platforms
 
-### 🔸 Heroku
-
-[![Deploy to Heroku](https://img.shields.io/badge/Deploy%20to-Heroku-purple?style=for-the-badge&logo=heroku)](https://heroku.com)
-
-### 🔸 Railway
-
-[![Deploy on Railway](https://img.shields.io/badge/Deploy%20on-Railway-blue?style=for-the-badge&logo=railway)](https://railway.app)
-
-### 🔸 Render
-
-[![Render](https://img.shields.io/badge/Deploy%20on-Render-black?style=for-the-badge&logo=render)](https://render.com)
-
-### 🔸 Koyeb
-
-[![Koyeb](https://img.shields.io/badge/Deploy%20on-Koyeb-yellow?style=for-the-badge&logo=koyeb)](https://www.koyeb.com/)
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Heroku-Deploy-purple?style=for-the-badge&logo=heroku" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Railway-Deploy-black?style=for-the-badge&logo=railway" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Koyeb-Deploy-darkblue?style=for-the-badge&logo=koyeb" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Render-Deploy-blue?style=for-the-badge&logo=render" /></a>
+</p>
 
 ---
 
@@ -49,10 +41,13 @@ This bot is **NOT obfuscated** — editing with care is your responsibility. Cus
 
 ```bash
 pkg update && pkg upgrade
-pkg install git nodejs ffmpeg imagemagick yarn -y
+pkg install nodejs
+pkg install ffmpeg
+pkg install imagemagick
+pkg install git
 git clone https://github.com/giftedsession/dark-dave
 cd dark-dave
-yarn install
+npm install
 node main.js
 
 ## 📌 Fork & Star the Repo
