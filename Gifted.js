@@ -832,7 +832,7 @@ if (db.data.users[m.sender].afkTime > -1) {
 }  
 //total features
 const xeonfeature = () =>{
-    var mytext = fs.readFileSync("./bellah.js").toString()
+    var mytext = fs.readFileSync("./Gifted.js").toString()
     var numUpper = (mytext.match(/case '/g) || []).length
     return numUpper
 }
@@ -1073,7 +1073,7 @@ const pluginsLoader = async (directory) => {
 
 let pluginsDisable = true
 const plugins = await pluginsLoader(path.resolve(__dirname, "plugins"))  
-const dave = {
+const Gifted = {
     Gifted,
     toIDR,
     Owner,
