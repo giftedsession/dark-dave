@@ -156,3 +156,91 @@ async function startGifted() { // ✅ function renamed
       if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
         console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254xxx"))
       )
+
+       process.exit(0)
+         }
+      } else {
+         phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number \nFor example: +254xxx : `)))
+         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+
+         // Ask again when entering the wrong number
+         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+            console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +254xxx")))
+
+            phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number \nFor example: +254xxx : `)))
+            phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+            rl.close()
+         }
+      }
+
+      setTimeout(async () => {
+         let code = await Gifted.requestPairingCode(phoneNumber)
+         code = code?.match(/.{1,4}/g)?.join("-") || code
+         console.log(chalk.black(chalk.bgGreen(`Your Pairing Code : `)), chalk.black(chalk.white(code)))
+      }, 3000)
+   }
+
+Gifted.ev.on('connection.update', async (update) => {
+        const {
+
+                connection,
+                lastDisconnect
+        } = update
+try{
+                if (connection === 'close') {
+                        let reason = new Boom(lastDisconnect?.error)?.output.statusCode
+                        if (reason === DisconnectReason.badSession) {
+                                console.log(`Bad Session File, Please Delete Session and Scan Again`);
+                                startGifted()
+                        } else if (reason === DisconnectReason.connectionClosed) {
+                                console.log("Connection closed, reconnecting....");
+                                startGifted();
+                        } else if (reason === DisconnectReason.connectionLost) {
+                                console.log("Connection Lost from Server, reconnecting...");
+                                startGifted();
+                        } else if (reason === DisconnectReason.connectionReplaced) {
+                                console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
+                                startGifted()
+                        } else if (reason === DisconnectReason.loggedOut) {
+                                console.log(`Device Logged Out, Please Delete Session and Scan Again.`);
+                                startGifted();
+                        } else if (reason === DisconnectReason.restartRequired) {
+                                console.log("Restart Required, Restarting...");
+                                startGifted();
+                        } else if (reason === DisconnectReason.timedOut) {
+                                console.log("Connection TimedOut, Reconnecting...");
+                                startGifted();
+                        } else Gifted.end(`Unknown DisconnectReason: ${reason}|${connection}`)
+                }
+                if (update.connection == "connecting" || update.receivedPendingNotifications == "false") {
+                        console.log(color(`\nConnecting...`, 'white'))
+                }
+                if (update.connection == "open" || update.receivedPendingNotifications == "true") {
+                        console.log(color(` `,'magenta'))
+            console.log(color(`Connected to => ` + JSON.stringify(Gifted.user, null, 2), 'green'))
+                        await delay(1999)
+                        Gifted.sendMessage(Gifted.user.id, {
+image: {
+url: 'https://files.catbox.moe/vr83h2.jpg'
+}, 
+caption: `𝐃𝐀𝐕𝐄-𝐗𝐌𝐃 connected
+> Bot prefix: ${global.xprefix}
+
+> Owner: ${global.ownernumber}
+
+> BotName: ${global.botname}
+
+> Total Command: 138
+
+> Mode:  ${Gifted.public ? '𝗣𝘂𝗯𝗹𝗶𝗰 ϟ' : '𝗣𝗿𝗶𝘃𝗮𝘁𝗲 ϟ'}
+
+*Follow support for updates*
+https://whatsapp.com/channel/0029VbApvFQ2Jl84lhONkc3k
+
+*Join Group*
+
+https://chat.whatsapp.com/LNkkXQ1rDv3GQNFFbqLoMe?mode=r_t
+
+
+> Enjoy 😍`
+})
