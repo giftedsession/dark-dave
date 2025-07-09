@@ -309,3 +309,106 @@ Gifted.ev.on('messages.upsert', async chatUpdate => {
   }
 })
 
+
+              //admin event
+Gifted.ev.on('group-participants.update', async (anu) => {
+    if (global.adminevent) {
+        console.log(anu)
+        try {
+            let participants = anu.participants
+            for (let num of participants) {
+                try {
+                    ppuser = await Gifted.profilePictureUrl(num, 'image')
+                } catch (err) {
+                    ppuser = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
+                }
+                try {
+                    ppgroup = await Gifted.profilePictureUrl(anu.id, 'image')
+                } catch (err) {
+                    ppgroup = 'https://i.ibb.co/RBx5SQC/avatar-group-large-v2.png?q=60'
+                }
+
+                if (anu.action == 'promote') {
+                    const time = moment.tz('Africa/Nairobi').format('HH:mm:ss')
+                    const date = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+                    let name = num
+                    let body = `🎉 𝗖𝗼𝗻𝗴𝗿𝗮𝘁𝘂𝗹𝗮𝘁𝗶𝗼𝗻𝘀 @${name.split("@")[0]}! You have been *promoted* to *admin*!`
+                    Gifted.sendMessage(anu.id, {
+                        text: body,
+                        contextInfo: {
+                            mentionedJid: [num],
+                            "externalAdReply": {
+                                showAdAttribution: true,
+                                containsAutoReply: true,
+                                title: `${global.botname}`,
+                                body: `${global.ownername}`,
+                                previewType: "PHOTO",
+                                thumbnailUrl: '',
+                                thumbnail: '',
+                                sourceUrl: `${global.wagc}`
+                            }
+                        }
+                    })
+                } else if (anu.action == 'demote') {
+                    const time = moment.tz('Africa/Nairobi').format('HH:mm:ss')
+                    const date = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+                    let name = num
+                    let body = `⚠️ 𝗢𝗼𝗽𝘀 @${name.split("@")[0]}, you have been *demoted* from *admin*!`
+                    Gifted.sendMessage(anu.id, {
+                        text: body,
+                        contextInfo: {
+                            mentionedJid: [num],
+                            "externalAdReply": {
+                                showAdAttribution: true,
+                                containsAutoReply: true,
+                                title: `${global.botname}`,
+                                body: `${global.ownername}`,
+                                previewType: "PHOTO",
+                                thumbnailUrl: '',
+                                thumbnail: '',
+                                sourceUrl: `${global.wagc}`
+                            }
+                        }
+                    })
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+})
+
+// detect group update
+Gifted.ev.on('messages.upsert', async chatUpdate => {
+    try {
+        mek = chatUpdate.messages[0]
+        if (!mek.message) return
+        mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
+        if (mek.key && mek.key.remoteJid === 'status@broadcast') return
+        if (!Gifted.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
+        if (mek.key.id.startsWith('Xeon') && mek.key.id.length === 16) return
+        if (mek.key.id.startsWith('BAE5')) return
+        m = smsg(Gifted, mek, store)
+        require("./Gifted")(Gifted, m, chatUpdate, store)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+Gifted.decodeJid = (jid) => {
+    if (!jid) return jid
+    if (/:\d+@/gi.test(jid)) {
+        let decode = jidDecode(jid) || {}
+        return decode.user && decode.server && decode.user + '@' + decode.server || jid
+    } else return jid
+}
+
+Gifted.ev.on('contacts.update', update => {
+    for (let contact of update) {
+        let id = Gifted.decodeJid(contact.id)
+        if (store && store.contacts) store.contacts[id] = {
+            id,
+            name: contact.notify
+        }
+    }
+})
