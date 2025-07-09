@@ -4,7 +4,7 @@ const chalk = require('chalk')
 if (fs.existsSync('.env')) require('dotenv').config({ path: __dirname + '/.env' })
 
 // ✅ Core Session ID
-global.SESSION_ID = process.env.SESSION_ID || 'Dave~generated-session-id'
+global.SESSION_ID = process.env.SESSION_ID || 'Gifted~generated-session-id'
 
 // 📱 Identity & Branding
 global.ytname = 'YT: GiftedDaves'
