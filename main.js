@@ -254,7 +254,6 @@ CFonts.say('𝐃𝐀𝐕𝐄-𝐗𝐌𝐃', {
 	  startGifted();
 	}
 })
-Gifted.ev.on('creds.update', saveCreds)
 Gifted.ev.on("messages.upsert",  () => { })
 //------------------------------------------------------
 
