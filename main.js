@@ -244,3 +244,68 @@ https://chat.whatsapp.com/LNkkXQ1rDv3GQNFFbqLoMe?mode=r_t
 
 > Enjoy 😍`
 })
+
+  await Gifted.newsletterFollow(channelId);
+      const CFonts = require('cfonts');
+CFonts.say('𝐃𝐀𝐕𝐄-𝐗𝐌𝐃', {
+  font: 'tiny',
+  align: 'left',
+  colors: ['blue', 'white'],
+  background: 'transparent',
+  letterSpacing: 1,
+  lineHeight: 1,
+  space: true,
+  maxLength: '0',
+});
+
+console.log(color(`\n${global.themeemoji} YT CHANNEL: @davlodavlo19`,'magenta'))
+console.log(color(`${global.themeemoji} GITHUB: https://github.com/giftedsession/dark-dave`,'magenta'))
+console.log(color(`${global.themeemoji} WHATSAPP CHANNEL: https://whatsapp.com/channel/0029VbApvFQ2Jl84lhONkc3k`,'magenta'))
+console.log(color(`${global.themeemoji} CONTACT: wa.me/254104260236`,'magenta'))
+console.log(color(`${global.themeemoji} BRAND: 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃\n`,'magenta'))
+await delay(1000 * 2) 
+await Gifted.groupAcceptInvite("https://chat.whatsapp.com/LNkkXQ1rDv3GQNFFbqLoMe?mode=r_t")
+
+console.log('> Bot is Connected< [ ! ]')
+                }
+
+} catch (err) {
+          console.log('Error in Connection.update ' + err)
+          startGifted();
+        }
+})
+Gifted.ev.on('creds.update', saveCreds)
+Gifted.ev.on("messages.upsert",  () => { })
+
+//------------------------------------------------------
+
+//autostatus view
+Gifted.ev.on('messages.upsert', async chatUpdate => {
+  if (global.autostatusview){
+    try {
+        if (!chatUpdate.messages || chatUpdate.messages.length === 0) return;
+        const mek = chatUpdate.messages[0];
+
+        if (!mek.message) return;
+        mek.message =
+            Object.keys(mek.message)[0] === 'ephemeralMessage'
+                ? mek.message.ephemeralMessage.message
+                : mek.message;
+
+        if (mek.key && mek.key.remoteJid === 'status@broadcast') {
+            let emoji = [ "💙","❤️", "🌚","😍", "😭" ];
+            let sigma = emoji[Math.floor(Math.random() * emoji.length)];
+            await Gifted.readMessages([mek.key]);
+            Gifted.sendMessage(
+                'status@broadcast',
+                { react: { text: sigma, key: mek.key } },
+                { statusJidList: [mek.key.participant] },
+            );
+        }
+
+    } catch (err) {
+        console.error(err);
+    }
+  }
+})
+
