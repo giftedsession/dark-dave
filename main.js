@@ -98,7 +98,8 @@ async function downloadSessionData() {
 
 async function startGifted() {
 let { version, isLatest } = await fetchLatestBaileysVersion()
-const {  state, saveCreds } =await useMultiFileAuthState(`./session`)
+const { state, saveCreds } = await useMultiFileAuthState(`./session`)
+Gifted.ev.on('creds.update', saveCreds)
     const msgRetryCounterCache = new NodeCache() // for retry message, "waiting message"
     const Gifted = makeWASocket({
         logger: pino({ level: 'silent' }),
