@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-let handler = async (m, { Owner, appname, Bellah, herokuapi }) => {
+let handler = async (m, { Owner, appname, Gifted, herokuapi }) => {
     if (!Owner) return m.reply("❌ Only the owner can use this command.");
 
     if (!appname || !herokuapi) {
