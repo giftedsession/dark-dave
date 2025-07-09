@@ -3852,7 +3852,7 @@ case 'toimage':
             case 'photo': {
                 if (!/webp/.test(mime)) return reply(`Reply sticker with caption *${prefix + command}*`)
                 await m.reply(`processing photo`)
-                let media = await Bellah.downloadAndSaveMediaMessage(qmsg)
+                let media = await Gifted.downloadAndSaveMediaMessage(qmsg)
                 let ran = await getRandom('.png')
                 exec(`ffmpeg -i ${media} ${ran}`, (err) => {
                     fs.unlinkSync(media)
@@ -3952,7 +3952,7 @@ case 'linkgroup':
                 if (!isAdmins && !isGroupOwner && !Owner) return m.reply(mess.admin)
                 if (!isBotAdmins) return m.reply(mess.admin)
                 let response = await Gifted.groupInviteCode(m.chat)
-                Bellah.sendText(m.chat, `👥 *GROUP LINK BY 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃*\n📛 *Name :* ${groupMetadata.subject}\n👤 *Owner Grup :* ${groupMetadata.owner !== undefined ? '+'+ groupMetadata.owner.split`@`[0] : 'Not known'}\n🌱 *ID :* ${groupMetadata.id}\n🔗 *Chat Link :* https://chat.whatsapp.com/${response}\n👥 *Member :* ${groupMetadata.participants.length}\n`, m, {
+                Gifted.sendText(m.chat, `👥 *GROUP LINK BY 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃*\n📛 *Name :* ${groupMetadata.subject}\n👤 *Owner Grup :* ${groupMetadata.owner !== undefined ? '+'+ groupMetadata.owner.split`@`[0] : 'Not known'}\n🌱 *ID :* ${groupMetadata.id}\n🔗 *Chat Link :* https://chat.whatsapp.com/${response}\n👥 *Member :* ${groupMetadata.participants.length}\n`, m, {
                     detectLink: true
                 })
             break
