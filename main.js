@@ -378,7 +378,7 @@ Gifted.ev.on('group-participants.update', async (anu) => {
     }
 })
 
-// detect group update
+               // detect group update
 Gifted.ev.on('messages.upsert', async chatUpdate => {
     try {
         mek = chatUpdate.messages[0]
@@ -412,3 +412,103 @@ Gifted.ev.on('contacts.update', update => {
         }
     }
 })
+
+Gifted.getName = (jid, withoutContact = false) => {
+    id = Gifted.decodeJid(jid)
+    withoutContact = Gifted.withoutContact || withoutContact
+    let v
+    if (id.endsWith("@g.us")) return new Promise(async (resolve) => {
+        v = store.contacts[id] || {}
+        if (!(v.name || v.subject)) v = await Gifted.groupMetadata(id) || {}
+        resolve(v.name || v.subject || PhoneNumber('+' + id.replace('@s.whatsapp.net', '')).getNumber('international'))
+    })
+    else v = id === '0@s.whatsapp.net' ? { id, name: 'WhatsApp' }
+        : id === Gifted.decodeJid(Gifted.user.id) ? Gifted.user
+        : (store.contacts[id] || {})
+    return (withoutContact ? '' : v.name) || v.subject || v.verifiedName || PhoneNumber('+' + jid.replace('@s.whatsapp.net', '')).getNumber('international')
+}
+
+Gifted.sendContact = async (jid, kon, quoted = '', opts = {}) => {
+    let list = []
+    for (let i of kon) {
+        let name = await Gifted.getName(i)
+        list.push({
+            displayName: name,
+            vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nFN:${name}\nitem1.TEL;waid=${i.split('@')[0]}:${i.split('@')[0]}\nitem1.X-ABLabel:Mobile\nEND:VCARD`
+        })
+    }
+    Gifted.sendMessage(jid, { contacts: { displayName: `${list.length} Contact`, contacts: list }, ...opts }, { quoted })
+}
+
+Gifted.public = true
+
+Gifted.serializeM = (m) => smsg(Gifted, m, store)
+
+Gifted.sendText = (jid, text, quoted = '', options) => Gifted.sendMessage(jid, {
+    text: text,
+    ...options
+}, {
+    quoted,
+    ...options
+})
+
+Gifted.sendImage = async (jid, path, caption = '', quoted = '', options) => {
+    let buffer = Buffer.isBuffer(path)
+        ? path
+        : /^data:.*?\/.*?;base64,/i.test(path)
+        ? Buffer.from(path.split`,`[1], 'base64')
+        : /^https?:\/\//.test(path)
+        ? await getBuffer(path)
+        : fs.existsSync(path)
+        ? fs.readFileSync(path)
+        : Buffer.alloc(0)
+    return await Gifted.sendMessage(jid, {
+        image: buffer,
+        caption: caption,
+        ...options
+    }, { quoted })
+}
+
+Gifted.sendTextWithMentions = async (jid, text, quoted, options = {}) => Gifted.sendMessage(jid, {
+    text: text,
+    mentions: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net'),
+    ...options
+}, { quoted })
+
+Gifted.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+    let buff = Buffer.isBuffer(path)
+        ? path
+        : /^data:.*?\/.*?;base64,/i.test(path)
+        ? Buffer.from(path.split`,`[1], 'base64')
+        : /^https?:\/\//.test(path)
+        ? await getBuffer(path)
+        : fs.existsSync(path)
+        ? fs.readFileSync(path)
+        : Buffer.alloc(0)
+    let buffer = (options && (options.packname || options.author))
+        ? await writeExifImg(buff, options)
+        : await imageToWebp(buff)
+
+    await Gifted.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
+    fs.unlinkSync(buffer)
+    return
+}
+
+Gifted.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+    let buff = Buffer.isBuffer(path)
+        ? path
+        : /^data:.*?\/.*?;base64,/i.test(path)
+        ? Buffer.from(path.split`,`[1], 'base64')
+        : /^https?:\/\//.test(path)
+        ? await getBuffer(path)
+        : fs.existsSync(path)
+        ? fs.readFileSync(path)
+        : Buffer.alloc(0)
+
+    let buffer = (options && (options.packname || options.author))
+        ? await writeExifVid(buff, options)
+        : await videoToWebp(buff)
+
+    await Gifted.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
+    return buffer
+}
