@@ -512,3 +512,108 @@ Gifted.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
     await Gifted.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
     return buffer
 }
+Gifted.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+    let quoted = message.msg ? message.msg : message
+    let mime = (message.msg || message).mimetype || ''
+    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
+    const stream = await downloadContentFromMessage(quoted, messageType)
+    let buffer = Buffer.from([])
+    for await (const chunk of stream) {
+        buffer = Buffer.concat([buffer, chunk])
+    }
+    let type = await FileType.fromBuffer(buffer)
+    let trueFileName = attachExtension ? (filename + '.' + type.ext) : filename
+    await fs.writeFileSync(trueFileName, buffer)
+    return trueFileName
+}
+
+Gifted.copyNForward = async (jid, message, forceForward = false, options = {}) => {
+    let vtype
+    if (options.readViewOnce) {
+        message.message = message.message?.ephemeralMessage?.message || message.message
+        vtype = Object.keys(message.message.viewOnceMessage.message)[0]
+        delete message.message?.ignore
+        delete message.message.viewOnceMessage.message[vtype].viewOnce
+        message.message = { ...message.message.viewOnceMessage.message }
+    }
+    let mtype = Object.keys(message.message)[0]
+    let content = await generateForwardMessageContent(message, forceForward)
+    let ctype = Object.keys(content)[0]
+    let context = {}
+    if (mtype !== "conversation") context = message.message[mtype].contextInfo
+    content[ctype].contextInfo = {
+        ...context,
+        ...content[ctype].contextInfo
+    }
+    const waMessage = await generateWAMessageFromContent(jid, content, options ? {
+        ...content[ctype],
+        ...options,
+        ...(options.contextInfo ? {
+            contextInfo: {
+                ...content[ctype].contextInfo,
+                ...options.contextInfo
+            }
+        } : {})
+    } : {})
+    await Gifted.relayMessage(jid, waMessage.message, { messageId: waMessage.key.id })
+    return waMessage
+}
+
+Gifted.sendPoll = (jid, name = '', values = [], selectableCount = 1) => {
+    return Gifted.sendMessage(jid, { poll: { name, values, selectableCount } })
+}
+
+Gifted.parseMention = (text = '') => {
+    return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map(v => v[1] + '@s.whatsapp.net')
+}
+
+Gifted.downloadMediaMessage = async (message) => {
+    let mime = (message.msg || message).mimetype || ''
+    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
+    const stream = await downloadContentFromMessage(message, messageType)
+    let buffer = Buffer.from([])
+    for await (const chunk of stream) {
+        buffer = Buffer.concat([buffer, chunk])
+    }
+    return buffer
+}
+
+return Gifted
+}
+
+async function tylor() {
+    if (fs.existsSync(credsPath)) {
+        console.log(color("Session file found, starting bot...", 'yellow'))
+        await startGifted()
+    } else {
+        const sessionDownloaded = await downloadSessionData()
+        if (sessionDownloaded) {
+            console.log("Session downloaded, starting bot.")
+            await startGifted()
+        } else {
+            if (!fs.existsSync(credsPath)) {
+                if (!global.SESSION_ID) {
+                    console.log(color("Please wait for a few seconds to enter your number!", 'red'))
+                    await startGifted()
+                }
+            }
+        }
+    }
+}
+
+tylor()
+
+process.on('uncaughtException', function (err) {
+    let e = String(err)
+    if (
+        e.includes("conflict") ||
+        e.includes("Socket connection timeout") ||
+        e.includes("not-authorized") ||
+        e.includes("already-exists") ||
+        e.includes("rate-overlimit") ||
+        e.includes("Connection Closed") ||
+        e.includes("Timed Out") ||
+        e.includes("Value not found")
+    ) return
+    console.log('Caught exception: ', err)
+})
