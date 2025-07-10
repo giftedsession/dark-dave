@@ -40,7 +40,7 @@ const {
   proto
 } = require("@whiskeysockets/baileys")
 
-const channelId = "120363257205745956@newsletter";
+const channelId = "120363400480173280@newsletter";
 
 const store = makeInMemoryStore({
     logger: pino().child({
