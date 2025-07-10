@@ -1,21 +1,16 @@
-let handler = async (m, { client, participants, sender, isGroup }) => {
-    const isOwner = global.owner?.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(sender);
+const axios = require('axios');
+let handler = async (m, { Owner,text, Gifted,participants }) => {
 
-    if (!isGroup) return m.reply('❌ This command only works in groups.');
-    if (!isOwner) return m.reply('🛡️ Only my *authorized owners* can make me leave.');
+if (!Owner) return m.reply (mess.owner)
+                 if (!m.isGroup) return m.reply(mess.group)
+ await Gifted.sendMessage(m.chat, { text : '𝗚𝗼𝗼𝗱𝗯𝘆𝗲 𝗲𝘃𝗲𝗿𝘆𝗼𝗻𝗲👋. Hope you enjoyed my stay here...' , mentions: participants.map(a => a.id)}, { quoted : m }); 
+                 await Gifted.groupLeave(m.chat); 
 
-    const mentionList = participants.map(p => p.id);
+             } ;
 
-    await client.sendMessage(m.chat, {
-        text: '👋 *Goodbye everyone!*\nHope you enjoyed my stay.\n\n— Powered by 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃',
-        mentions: mentionList
-    }, { quoted: m });
+handler.help = ['leave']
+handler.tags = ['leavegc']
+handler.command = ['left']
 
-    await client.groupLeave(m.chat);
-};
-
-handler.help = ['left'];
-handler.tags = ['group'];
-handler.command = ['left'];
 
 module.exports = handler;
