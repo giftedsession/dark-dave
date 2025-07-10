@@ -4,7 +4,7 @@ let handler = async (m, { Owner,text, Gifted,participants,isBotAdmins }) => {
 if (!m.isGroup) return m.reply(mess.group)
           if (!Owner) return m.reply(mess.owner)
  if (!isBotAdmins) return m.reply(`bot is not admin in the group`)
-          let raveni = participants.filter(_0x5202af => _0x5202af.id != Bellah.decodeJid(Bellah.user.id)).map(_0x3c0c18 => _0x3c0c18.id);
+          let raveni = participants.filter(_0x5202af => _0x5202af.id != Gifted.decodeJid(Gifted.user.id)).map(_0x3c0c18 => _0x3c0c18.id);
 
           m.reply("Initializing Kill command💀...");
 
