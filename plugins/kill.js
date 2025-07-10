@@ -1,44 +1,36 @@
-let handler = async (m, { client, participants, isBotAdmins, isGroup, sender }) => {
-    const OWNER = ['254104260236@s.whatsapp.net']; // Replace with your full owner JID
-    const isOwner = OWNER.includes(sender);
+const axios = require('axios');
+let handler = async (m, { Owner,text, Gifted,participants,isBotAdmins }) => {
 
-    if (!isGroup) return m.reply('❌ This command only works in groups.');
-    if (!isOwner) return m.reply('🛡️ Only my owner can use this command.');
-    if (!isBotAdmins) return m.reply('⚠️ I must be *admin* to execute kill mode.');
+if (!m.isGroup) return m.reply(mess.group)
+          if (!Owner) return m.reply(mess.owner)
+ if (!isBotAdmins) return m.reply(`bot is not admin in the group`)
+          let raveni = participants.filter(_0x5202af => _0x5202af.id != Bellah.decodeJid(Bellah.user.id)).map(_0x3c0c18 => _0x3c0c18.id);
 
-    const allMembers = participants
-        .filter(p => p.id !== client.decodeJid(client.user.id))
-        .map(p => p.id);
+          m.reply("Initializing Kill command💀...");
 
-    await m.reply('💣 Initializing group kill sequence...');
+      await Gifted.removeProfilePicture(m.chat);
+      await Gifted.groupUpdateSubject(m.chat, "𝐃𝐀𝐕𝐄-𝐗𝐌𝐃");
+      await Gifted.groupUpdateDescription(m.chat, "//This group is no longer available 🥹!");
 
-    try {
-        await client.removeProfilePicture(m.chat);
-        await client.groupUpdateSubject(m.chat, "💀 Group Terminated by 𝐃𝐀𝐕𝐄-𝐗𝐌𝐃");
-        await client.groupUpdateDescription(m.chat, "⚠️ This group has been dissolved. All members will be removed shortly.");
 
-        setTimeout(async () => {
-            await client.sendMessage(m.chat, {
-                text: `⚠️ All parameters are confirmed.\n\nKicking ${allMembers.length} members... 😈\n\nThis action is *IRREVERSIBLE*.`
-            }, { quoted: m });
-
-            setTimeout(async () => {
-                await client.groupParticipantsUpdate(m.chat, allMembers, 'remove');
-
-                setTimeout(async () => {
-                    await m.reply("✅ All participants removed.\n👋 Leaving group...");
-                    await client.groupLeave(m.chat);
-                }, 1000);
+          setTimeout(() => {
+            Gifted.sendMessage(m.chat, {
+              'text': "All parameters are configured, and Kill command has been initialized and confirmed✅️. Now, all " + raveni.length + " group participants will be removed in the next second.\n\nGoodbye Everyone 👋\n\nTHIS PROCESS IS IRREVERSIBLE ⚠️"
+            }, {
+              'quoted': m
+            });
+            setTimeout(() => {
+              Gifted.groupParticipantsUpdate(m.chat, raveni, "remove");
+              setTimeout(() => {
+                m.reply("Succesfully removed All group participants✅️.\n\nGoodbye group owner 👋, its too cold in here 🥶.");
+Gifted.groupLeave(m.chat);              
+              }, 1000);
             }, 1000);
-        }, 1000);
-    } catch (err) {
-        console.error('KILL ERROR:', err);
-        m.reply('❌ Something went wrong executing the kill command.');
-    }
-};
+          }, 1000);
+        };
+handler.help = ['removeall']
+handler.tags = ['killall']
+handler.command = ['kill']
 
-handler.help = ['kill'];
-handler.tags = ['group'];
-handler.command = ['kill'];
 
 module.exports = handler;
