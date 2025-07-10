@@ -1,27 +1,16 @@
-let handler = async (m, { conn, text, isOwner, quoted, mentionedJid }) => {
-    if (!isOwner) return m.reply("❌ Only the owner can use this command.")
-    if (!quoted && !mentionedJid.length && !text) return m.reply("❗ Tag, reply, or provide a number to block.")
-
-    let target = mentionedJid[0]
-              || (quoted ? quoted.sender : null)
-              || (text ? text.replace(/[^0-9]/g, '') + '@s.whatsapp.net' : null)
-
-    if (!target) return m.reply("🚫 Could not identify the user to block.")
-
-    if (target === conn.decodeJid(conn.user.id)) return m.reply("😡 I can't block myself.")
-    if (target === '254104260236@s.whatsapp.net') return m.reply("⚠️ I can't block my creator 😡")
-
-    try {
-        await conn.updateBlockStatus(target, 'block')
-        m.reply(`✅ Successfully *blocked* @${target.split('@')[0]}`, { mentions: [target] })
-    } catch (err) {
-        m.reply("❌ Failed to block user.\n\n" + err)
-    }
-}
-
-handler.help = ['block']
-handler.tags = ['owner']
+const axios = require('axios');
+let handler = async (m, { Owner,text, Gifted }) => {
+ if (!Owner) return m.reply(mess.owner)
+ if (!m.quoted) return m.reply("tag someone") 
+ let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+         if (users == "254104260236@s.whatsapp.net") return m.reply("𝗜 𝗰𝗮𝗻𝗻𝗼𝘁 𝗯𝗹𝗼𝗰𝗸 𝗺𝘆 𝗢𝘄𝗻𝗲𝗿 😡");
+                  if (users  == Gifted.decodeJid(Gifted.user.id)) throw '𝗜 𝗰𝗮𝗻𝗻𝗼𝘁 𝗯𝗹𝗼𝗰𝗸 𝗺𝘆𝘀𝗲𝗹𝗳 𝗶𝗱𝗶𝗼𝘁 😡';
+ await Gifted.updateBlockStatus(users, 'block'); 
+ m.reply (`𝗕𝗹𝗼𝗰𝗸𝗲𝗱 𝘀𝘂𝗰𝗰𝗲𝘀𝗳𝘂𝗹𝗹𝘆!`); 
+ }; 
+handler.help = ['restrict']
+handler.tags = ['ban']
 handler.command = ['block']
-handler.owner = true
 
-module.exports = handler
+
+module.exports = handler;
