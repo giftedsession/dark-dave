@@ -1,6 +1,5 @@
 const axios = require('axios')
-
-let handler = async (m, { fetchJson }) => {
+let handler = async (m, {text,fetchJson, Gifted }) => {
   try {
     const leagues = {
       PL: '🇬🇧 𝐏𝐫𝐞𝐦𝐢𝐞𝐫 𝐋𝐞𝐚𝐠𝐮𝐞',
