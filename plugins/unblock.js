@@ -1,4 +1,5 @@
-let handler = async (m, { conn, text, isCreator, quoted, mentionedJid }) => {
+const axios = require('axios');
+let handler = async (m, { Owner,text, Gifted,participants }) => {
   if (!isCreator) return m.reply("❌ *Only owners* can use this command.");
 
   let target = mentionedJid[0]
@@ -8,7 +9,7 @@ let handler = async (m, { conn, text, isCreator, quoted, mentionedJid }) => {
   if (!target) return m.reply("⚠️ Tag or reply to a user, or provide a number.");
 
   try {
-    await conn.updateBlockStatus(target, 'unblock');
+    await Gifted.updateBlockStatus(target, 'unblock');
     m.reply(`✅ Successfully *unblocked* @${target.split('@')[0]}`, { mentions: [target] });
   } catch (e) {
     m.reply("❌ Failed to unblock user.\n\n" + e);
