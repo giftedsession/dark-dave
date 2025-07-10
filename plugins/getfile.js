@@ -1,27 +1,31 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs")
 
-let handler = async (m, { conn, Owner, text, command }) => {
-  if (!Owner) return m.reply(mess.owner);
-  if (!text) return m.reply(`❗Example: .${command} Gifted.js`);
+let handler = async (m, { Gifted,Owner, reply, text, example }) => {
+ if (!Owner) return m.reply(mess.owner)
+ if (!text) return m.reply('Example: .getfile Gifted.js')
 
-  let filePath = path.join(__dirname, text);
+ const fs = require('fs')
+ const path = require('path')
 
-  if (!fs.existsSync(filePath)) return m.reply('❌ File not found.');
+ let filePath = path.join(__dirname, text)
 
-  try {
-    await conn.sendMessage(m.chat, {
-      document: fs.readFileSync(filePath),
-      fileName: path.basename(filePath),
-      mimetype: 'text/plain'
-    }, { quoted: m });
-  } catch (e) {
-    m.reply('❌ Failed to send file:\n' + (e?.message || e.toString()));
-  }
+ // cek apakah file ada
+ if (!fs.existsSync(filePath)) return m.reply('File does not exist, bro.')
+
+
+ try {
+ await Gifted.sendMessage(m.chat, {
+ document: fs.readFileSync(filePath),
+ fileName: text,
+ mimetype: 'text/plain'
+ }, { quoted: m })
+ } catch (e) {
+ m.reply('failed to get file:\n' + e?.message || e.toString())
+ }
 };
+handler.help = ['getfile']
+handler.tags = ['get']
+handler.command = ['getfile']
 
-handler.help = ['getfile'];
-handler.tags = ['admin'];
-handler.command = ['getfile'];
 
 module.exports = handler;
