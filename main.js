@@ -120,12 +120,14 @@ async function downloadSessionData() {
 }
 
 
+let Gifted // ✅ Fixes scope so it's accessible outside the function
+
 async function startGifted() { // ✅ function renamed
   let { version, isLatest } = await fetchLatestBaileysVersion()
   const { state, saveCreds } = await useMultiFileAuthState(`./session`)
   const msgRetryCounterCache = new NodeCache()
 
-  const Gifted = makeWASocket({
+  Gifted = makeWASocket({ // ⬅️ no 'const' so it uses the outer one
     logger: pino({ level: 'silent' }),
     printQRInTerminal: !pairingCode,
     mobile: useMobile,
