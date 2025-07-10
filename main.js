@@ -94,7 +94,30 @@ async function downloadSessionData() {
     }
   } catch (error) {
     console.error('Error downloading session data:', error);
+  try {
+  await fs.promises.mkdir(sessionDir, { recursive: true });
+
+  if (!fs.existsSync(credsPath)) {
+    if (!global.SESSION_ID) {
+      return console.log(color(`❌ SESSION_ID is missing!\nNo creds.json file in session folder.\n\nPlease wait and enter your number to create a new session.`, 'red'));
+    }
+
+    const base64Data = global.SESSION_ID.split("Gifted~")[1];
+
+    if (!base64Data) {
+      return console.log(color(`❌ SESSION_ID format invalid. Expected format: Gifted~<base64data>`, 'red'));
+    }
+
+    const sessionData = Buffer.from(base64Data, 'base64');
+
+    await fs.promises.writeFile(credsPath, sessionData);
+    console.log(color(`✅ Session file saved successfully. Starting bot...`, 'green'));
+
+    await startBellah(); // or startGifted() if renamed
   }
+} catch (error) {
+  console.error('❌ Error downloading session data:', error);
+}
 }
 
 
