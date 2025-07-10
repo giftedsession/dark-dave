@@ -1,23 +1,17 @@
 const axios = require('axios');
-
-let handler = async (m, { text, command, conn }) => {
-    const groupId = text.trim();
-
-    if (!groupId.endsWith('@g.us')) {
-        return m.reply(`❗ Provide a valid WhatsApp Group ID.\n\nExample:\n*${command} 120363123456789@g.us*`);
-    }
-
-    try {
-        const inviteCode = await conn.groupInviteCode(groupId);
-        const groupLink = `https://chat.whatsapp.com/${inviteCode}`;
-        await m.reply(groupLink);
-    } catch (e) {
-        m.reply('❌ Failed to fetch group link. Make sure the group ID is valid and the bot is an admin in that group.');
-    }
+let handler = async (m, { budy, Gifted}) => {
+    const iidgc = budy.match('@g.us')
+    if(!iidgc)return m.reply(`Provide a group ID\nExample : ${prefix + command} 120.......@g.us`)
+    try{
+    const gc = "https://chat.whatsapp.com/" + await Gifted.groupInviteCode(text)
+await m.reply(`${gc}`)
+        }catch(e){
+            m.reply('IdGroup must be Valid!!')
+        }
 };
+handler.help = ['ceklink']
+handler.tags = ['ceklinkgc']
+handler.command = ['ceklinkgc']
 
-handler.help = ['ceklinkgc'];
-handler.tags = ['group'];
-handler.command = ['ceklinkgc'];
 
 module.exports = handler;
