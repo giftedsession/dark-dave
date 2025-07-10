@@ -1,16 +1,26 @@
 const axios = require('axios');
+let handler = async (m, { text, Gifted}) => {
+  if (!text) return m.reply(`*「 DEEP IMAGE GENERATOR 」*
 
-let handler = async (m, { text, command, conn }) => {
-  if (!text) return m.reply(`*「 DEEP IMAGE GENERATOR 」*\n\nUse:\n${command} <prompt> | <style>\n\nExamples:\n${command} City at night | Cyberpunk\n${command} Beautiful fantasy forest | Fantasy\n\nOptional styles: realistic, anime, fantasy, cyberpunk...`);
+Use:
+.deepimg <prompt> | <style>
 
-  let [prompt, style] = text.split('|').map(a => a.trim());
-  if (!prompt) return m.reply('❗ Please provide a prompt. Example:\n.deepimg Sunset over the mountains | fantasy');
+Use:
+.deepimg City at night | Cyberpunk
+.deepimg Beautiful fantasy forest | Fantasy
 
-  style = (style || 'realistic').toLowerCase();
-  m.reply('⏳ Generating image, please wait...');
+Example style:
+.deepimg Sunset over the mountains
+`)
 
-  const deviceId = `dev-${Math.floor(Math.random() * 1000000)}`;
+  let [prompt, style] = text.split('|').map(a => a.trim())
+  if (!prompt) return m.reply('Provide a query! Example: .deepimg City | Cyberpunk')
 
+  style = (style || 'realistic').toLowerCase()
+
+  m.reply('⏳ Sending image...')
+
+  const deviceId = `dev-${Math.floor(Math.random() * 1000000)}`
   try {
     const response = await axios.post('https://api-preview.chatgot.io/api/v1/deepimg/flux-1-dev', {
       prompt: `${prompt} -style ${style}`,
@@ -22,26 +32,23 @@ let handler = async (m, { text, command, conn }) => {
         'Origin': 'https://deepimg.ai',
         'Referer': 'https://deepimg.ai/',
       }
-    });
+    })
 
-    const imageData = response.data?.data?.images?.[0];
-    if (imageData?.url) {
-      await conn.sendMessage(m.chat, {
-        image: { url: imageData.url },
-        caption: `✅ *Image Created!*\n\n*Prompt:* ${prompt}\n*Style:* ${style}`
-      }, { quoted: m });
+    const data = response.data
+    if (data?.data?.images?.length > 0) {
+      const imageUrl = data.data.images[0].url
+      await Gifted.sendMessage(m.chat, { image: { url: imageUrl }, caption: `✅ Succes Create image!\n\n*Prompt:* ${prompt}\n*Style:* ${style}` }, { quoted: m })
     } else {
-      m.reply('❌ Failed to generate image.');
+      m.reply('❌ error.')
     }
-
   } catch (err) {
-    console.error('[DEEPIMG ERROR]', err.response?.data || err.message);
-    m.reply('❌ Error while generating image.');
+    console.error(err.response ? err.response.data : err.message)
+    m.reply('❌ error.')
   }
-};
+};  
+handler.help = ['deepimage']
+handler.tags = ['deepphoto']
+handler.command = ['deepimg']
 
-handler.help = ['deepimg'];
-handler.tags = ['ai'];
-handler.command = ['deepimg'];
 
 module.exports = handler;
