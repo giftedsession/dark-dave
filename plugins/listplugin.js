@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-let handler = async (m) => {
+let handler = async (m, { Gifted, text, reply, example }) => {
     const pluginFolder = path.join(__dirname);
     const files = fs.readdirSync(pluginFolder).filter(file => file.endsWith(".js"));
 
