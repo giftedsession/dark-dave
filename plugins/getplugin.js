@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-let handler = async (m, { text }) => {
+let handler = async (m, { Bellah,Owner, reply, text, example }) => {
     if (!text) return m.reply('📄 Provide a plugin name.\nExample: .getplugin ping.js');
     if (!text.endsWith(".js")) return m.reply("⚠️ Plugin file name must end with `.js`");
 
