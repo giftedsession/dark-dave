@@ -1,36 +1,32 @@
 const fs = require("fs");
+let handler = async (m, { Owner,text, Gifted,participants }) => {
+if (!m.isGroup) return m.reply("Command meant for groups");
 
-let handler = async (m, { client, participants }) => {
-    if (!m.isGroup) return m.reply("❌ This command only works in groups.");
 
-    const metadata = await client.groupMetadata(m.chat);
-    const members = participants.map(p => p.id);
+let gcdata = await Gifted.groupMetadata(m.chat)
+let gcmem = participants.map(a => a.id)
 
-    let vcard = '';
-    let count = 1;
+let vcard = ''
+let noPort = 0
 
-    for (let user of metadata.participants) {
-        const number = user.id.split('@')[0];
-        vcard += `BEGIN:VCARD\nVERSION:3.0\nFN:[${count++}] +${number}\nTEL;type=CELL;type=VOICE;waid=${number}:+${number}\nEND:VCARD\n`;
-    }
+for (let a of gcdata.participants) {
+    vcard += `BEGIN:VCARD\nVERSION:3.0\nFN:[${noPort++}] +${a.id.split("@")[0]}\nTEL;type=CELL;type=VOICE;waid=${a.id.split("@")[0]}:+${a.id.split("@")[0]}\nEND:VCARD\n`
+}
 
-    const filePath = './contacts.vcf';
-    fs.writeFileSync(filePath, vcard.trim());
+let cont = './contacts.vcf'
 
-    await m.reply(`📇 Exporting ${metadata.participants.length} contacts...`);
+await m.reply('Getting Vcf contacts '+gcdata.participants.length+' in process...');
+await fs.writeFileSync(cont, vcard.trim())
+await Gifted.sendMessage(m.chat, {
+    document: fs.readFileSync(cont), mimetype: 'text/vcard', fileName: 'Group contacts.vcf', caption: 'VCF for '+gcdata.subject+'\n'+gcdata.participants.length+' contacts'
+}, {ephemeralExpiration: 86400, quoted: m})
+fs.unlinkSync(cont)
 
-    await client.sendMessage(m.chat, {
-        document: fs.readFileSync(filePath),
-        mimetype: 'text/vcard',
-        fileName: `𝐃𝐀𝐕𝐄-𝐗𝐌𝐃 Group Contacts.vcf`,
-        caption: `📎 *VCF for:* ${metadata.subject}\n👥 Total: ${metadata.participants.length} contacts`
-    }, { quoted: m, ephemeralExpiration: 86400 });
-
-    fs.unlinkSync(filePath);
 };
 
-handler.help = ['vcf'];
-handler.tags = ['group'];
-handler.command = ['vcf'];
+handler.help = ['fetch']
+handler.tags = ['contacts']
+handler.command = ['vcf']
+
 
 module.exports = handler;
