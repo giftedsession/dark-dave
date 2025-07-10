@@ -1,6 +1,7 @@
+const axios = require("axios");
 const googleTTS = require('google-tts-api');
 
-let handler = async (m, { text, client }) => {
+let handler = async (m, { text, Gifted }) => {
     if (!text) return m.reply('🗣️ Provide some text to convert.\nExample: .say hello I am Dave.');
 
     try {
@@ -10,7 +11,7 @@ let handler = async (m, { text, client }) => {
             host: 'https://translate.google.com',
         });
 
-        await client.sendMessage(m.chat, {
+        Gifted.sendMessage(m.chat, {
             audio: { url },
             mimetype: 'audio/mp4',
             ptt: true
