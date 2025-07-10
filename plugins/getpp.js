@@ -1,3 +1,6 @@
+const axios = require("axios");
+const googleTTS = require('google-tts-api');
+
 let handler = async (m, { Owner, Gifted, q }) => {
 
   if (!Owner) return m.reply('❌ Only the owner can use this command.')
