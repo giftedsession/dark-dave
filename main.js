@@ -84,8 +84,15 @@ async function downloadSessionData() {
         return console.log(color(`Session id not found at SESSION_ID!\nCreds.json not found at session folder!\n\nWait to enter your number`, 'red'));
       }
 
-      const raw = global.SESSION_ID || ''
-const base64Data = raw.includes('Gifted~') ? raw.split('Gifted~')[1] : raw
+      const rawSID = global.SESSION_ID
+console.log("✅ SESSION_ID received:", rawSID)
+
+if (!rawSID || !rawSID.includes("Gifted~")) {
+  throw new Error("SESSION_ID is empty or does not include 'Gifted~'")
+}
+
+const base64Data = rawSID.split("Gifted~")[1]
+if (!base64Data) throw new Error("SESSION_ID is missing data after 'Gifted~'")
         await fs.promises.writeFile(credsPath, sessionData);
       console.log(color(`Session successfully saved, please wait!!`, 'green'));
       await startBellah();
