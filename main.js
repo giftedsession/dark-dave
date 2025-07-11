@@ -62,7 +62,7 @@ require('./main.js')
 nocache('../main.js', module => console.log(color('[ CHANGE ]', 'green'), color(`'${module}'`, 'green'), 'Updated'))
 
 //------------------------------------------------------
-let phoneNumber = "254104245659"
+let phoneNumber = "254104260236"
 let owner = JSON.parse(fs.readFileSync('./src/data/role/owner.json'))
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
@@ -84,10 +84,8 @@ async function downloadSessionData() {
         return console.log(color(`Session id not found at SESSION_ID!\nCreds.json not found at session folder!\n\nWait to enter your number`, 'red'));
       }
 
-      const base64Data = global.SESSION_ID.split("Gifted~")[1];
-
-      const sessionData = Buffer.from(base64Data, 'base64');
-
+      const raw = global.SESSION_ID || ''
+const base64Data = raw.includes('Gifted~') ? raw.split('Gifted~')[1] : raw
         await fs.promises.writeFile(credsPath, sessionData);
       console.log(color(`Session successfully saved, please wait!!`, 'green'));
       await startBellah();
